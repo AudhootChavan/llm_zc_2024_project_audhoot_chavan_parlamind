@@ -1,0 +1,9 @@
+faiss-cpu==1.8.0.post1        # FAISS for vector-based search
+sentence-transformers==3.0.1  # Sentence Transformers for embedding
+openai==1.42.0                # OpenAI for GPT models
+pandas==2.0.3                 # Pandas for data manipulation
+streamlit==1.38.0             # Streamlit for web UI
+altair==5.4.1                 # Altair for charting
+youtube-transcript-api==0.6.2 # To fetch YouTube transcripts
+prefect==3.0.1              # For orchestration
+openpyxl==3.1.5               # Dependency 
