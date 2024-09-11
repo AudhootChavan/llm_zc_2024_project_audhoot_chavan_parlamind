@@ -20,7 +20,13 @@ As I'm getting older I'm finding a growing interest in me to follow Politics or 
 As this is a course project, my intention is not to build a full scale product but a generic prototype that can be scaled by whoever interested. For that I'm working only with 15 videos(Each about an hour long) from the Budget sessions 2024 of the Indian Parliament. I'll be creating a knowledge base from those videos using youtube transcripts and build a RAG system on top using Streamlit and OpenAI.  
   
 The project/app will help political enthusiasts browse through video summaries and ask relevant questions to get a better understanding of governance and politics in the country. I think this project has a lot of potential for a full scale app and can be a great inspiration for political parties around the world to use during their campaigns as a one stop for increasing engagement with citizens and spread awareness about the initiatives taken, fundamental principles, vision for the future etc. It is a great way to leverage the massive data they would have in the form of speeches/podcasts/debates/promo videos/articles/open letters etc.  
-  
+
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/012f810b-1511-4565-a021-39241fe2204e" alt="logo"/>
+</p>
+
+
 ## Technologies, tools and data sources used
 
 - [Sansad TV](https://www.youtube.com/channel/UCISgnSNwqQ2i8lhCun3KtQg) YouTube channel - For videos of Parliament discussions.
@@ -36,8 +42,19 @@ The project/app will help political enthusiasts browse through video summaries a
 
 ## Project flow diagram
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7e9969f7-6825-4cd4-8270-635c209a19fc" alt="Flow"/>
+</p>
+
+
 ## Project flow explanation
+
 The project has 2 parts. Part 1 consists of steps taken to prepare everything we need for our RAG system/application. Part 2 is the application where we put everything together we prepared in part 1.  
+
+  <p align="center">
+  <img width="341" alt="Folder structure" src="https://github.com/user-attachments/assets/9eb8180e-0667-4958-9de9-73e35177c9ff">
+</p>
+
   
 Part 1 is run entirely on Jupyter notebooks. It consists of the 3 following folders :  
 - 1 - Prepare Data For RAG - In this section we will process raw text files and prepare data suitable for our RAG system. The code is in *1 - Prepare Data For RAG.ipynb* notebook. *video_data_to_extract.xlsx* is an excel file manually prepared that consists of a list of videos selected for this project along with their YouTube links. Using the youtube transcript api, english translated transcripts are downloaded for each video and stored in text files in the *data_dumps* folder. The next step is to chunk the transcripts. I tried using ChatGPT for this however I did not have much success with it. It was giving me granular sentences which would not have been useful to capture the entire context for the RAG. So I decided to manually chunk the texts. I did spend a decent amount of time on this and was honestly the most frustrating part of this project. In the future with more time in hand, I'd experiment with audio processing and LLMs together for automated chunking. The chunked text files are in *chunked_data* folder. The final step is to prepare a dataset called *prepared_data.xlsx* that we can use directly for our RAG. We are capturing the video series, video name, video link, chunk start time(We can use this later in our app as a feature - More on this later), chunk text and an additional modified field created by concatenating chunk text with video series. This will be done to help with better retrieval and more context for the RAG system.
@@ -182,19 +199,44 @@ Part 2 of the project is the application where we put together everything we pre
 
 ## Application demo and features
 
-ParlaMind demo and screenshots
-  
-Features - The app has 3 features.
-- 1 - ParlaMind Insight - This is the summary page where a user can browse through summaries of all the videos used in the knowledge base. The objective of creating this page is for the user to ask relevant questions to the RAG. A drop down is implemented so the user can read summaries he/she is interested in. There is also a video link if the user is interested in watching the respective video.  
+ParlaMind demo and screenshots  
 
-- 2 - ParlaMind Query - This is the Q & A page which is our main RAG system. This is where the user will ask questions related to parliament discussions and our RAG system will retrieve relevant documents from the knowledge base and respond appropriately. The user also has an option to select the gpt model version he/she wants to run the RAG flow in. There are additionally 2 functions/features implemented for question enhancing(query rewriting) and reranking search results from retrieval. The user can check both or either to ask better questions and or get better responses. Additionally a user also gets video references at the bottom(Except for reranked results) to view exactly at what point in the video the question context was discussed. Finally the user can provide a rating of 1 to 5 for the quality of response received. He/she can also provide custom text feedback for the responses they receive. 
+
+
+https://github.com/user-attachments/assets/0cc4c380-e244-4470-952d-81e31da2d511
+
+
+
+
+
+
+
+ 
+Features - The app has 3 features.
+- 1 - ParlaMind Insight - This is the summary page where a user can browse through summaries of all the videos used in the knowledge base. The objective of creating this page is for the user to ask relevant questions to the RAG. A drop down is implemented so the user can read summaries he/she is interested in. There is also a video link if the user is interested in watching the respective video.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d5c40188-6cc0-4e2e-9b12-0a8667189d58" alt="Insight Page">
+</p>
+
+
+- 2 - ParlaMind Query - This is the Q & A page which is our main RAG system. This is where the user will ask questions related to parliament discussions and our RAG system will retrieve relevant documents from the knowledge base and respond appropriately. The user also has an option to select the gpt model version he/she wants to run the RAG flow in. There are additionally 2 functions/features implemented for question enhancing(query rewriting) and reranking search results from retrieval. The user can check both or either to ask better questions and or get better responses. Additionally a user also gets video references at the bottom(Except for reranked results) to view exactly at what point in the video the question context was discussed. Finally the user can provide a rating of 1 to 5 for the quality of response received. He/she can also provide custom text feedback for the responses they receive.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5c49b36d-8c8e-47b6-bcf7-910fb2c37089" alt="Query Page">
+</p>
 
 - 3 - ParlaMind Analytics - This is the final page where we visualise the feedback provided by the users. There are 5 charts in total. 
     - 1 - History of questions asked and answers received.
     - 2 - Distribution of user ratings on a scale of 1 to 5.
     - 3 - Day on day number of questions asked. 
     - 4 - Day on day average rating given by the users.
-    - 5 - Average rating for each gpt model used. 
+    - 5 - Average rating for each gpt model used.
+ 
+ <p align="center">
+  <img src="https://github.com/user-attachments/assets/001d8141-c3cb-417b-9fcd-8748d60a62fe" alt="Analytics Page">
+</p>
+
 
 ## Scope for improvement
 
