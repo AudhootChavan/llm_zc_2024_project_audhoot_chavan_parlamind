@@ -62,7 +62,7 @@ Part 1 is run entirely on Jupyter notebooks. It consists of the 3 following fold
     - Retrieval evaluations - We start by creating a ground truth data set. As we are using OpenAI, we have limited credits and there are [rate limits](https://platform.openai.com/docs/guides/rate-limits) in place. So the best solution is to work on a random sample.  
     For the retrieval evaluation we will work with a sample of 50 records from the dataset we prepared in section 1 and will save the file as *evaluations_data.xlsx*. We then use OpenAI single request to create 5 questions for each chunk in our sample. The prompt to use for generating the questions can be constructed using ChatGPT and I would recommend that as well. The generated response needs some parsing to extract each question and then we save the dataset as *ground_truth_data.xlsx*. This will be our ground truth dataset on which we perform our retrieval evaluations.  
     For the evaluations we will use 2 metrics - [Hit rate and MRR](https://www.evidentlyai.com/ranking-metrics/evaluating-recommender-systems) and **2** approaches. 
-        - The **first** approach is to evaluate which text field makes more sense to use for vector search. The original transcript text/chunk or the modified field that consists of video series as well for additional context. For this test we will *use paraphrase-albert-small-v2* sentence transformer model, smallest available to create vector embeddings. We will use K=3 nearest neighbors for *critical* evaluation. All indices are saved in the *indices* folder.
+        - The **first** approach is to evaluate which text field makes more sense to use for vector search. The original transcript text/chunk or the modified field that consists of video series as well for additional context. For this test we will *use paraphrase-albert-small-v2* sentence transformer model, smallest available to create vector embeddings. We will use K=3 nearest neighbors for *critical* evaluation. All indices are saved in the *indices* folder.  
         Results - 
             ```
             Original Text
@@ -146,11 +146,12 @@ Part 2 of the project is the application where we put together everything we pre
 
 ### Step 1 - Running the Jupyter notebooks 
 
+- Download the entire folder/clone the repo.
 - You only need to put your own OpenAI key in the OpenAI Key.txt file of the parent folder to run all the Jupyter notebooks. 
 
 ### Step 2 - Set up and build the pipeline in Prefect
 
-- Download the entire folder/clone the repo. Navigate inside the application folder. 
+- Navigate inside the application folder. 
 - Put your OpenAI key in the OpenAI Key.text file of the application folder. 
 - Keep your prefect key handy to login within docker shortly.
 - Start Docker desktop and open terminal in your current directory(*application* folder).
@@ -180,7 +181,8 @@ Part 2 of the project is the application where we put together everything we pre
     ```
 
 ### Step 3 - Run the pipeline
-- Go to prefect cloud to manage your runs. Your deployment ‘main_flow’ should be created in the deployments section. Do a quick run and monitor tasks on the Prefect dashboard. 
+- Go to prefect cloud to manage your runs. Your deployment ‘main_flow’ should be created in the deployments section. Do a quick run and monitor tasks on the Prefect dashboard.
+- The UI can then be accessed at http://localhost:8501.
 
 ### Step 4(Optional) - Delete project
 - Stop prefect agent with Control C.
@@ -194,7 +196,7 @@ Part 2 of the project is the application where we put together everything we pre
     ```
 - Delete image.
     ```
-    docker image parlamind-app
+    docker image rm parlamind-app
     ```
 
 ## Application demo and features
@@ -220,7 +222,7 @@ Features - The app has 3 features.
 </p>
 
 
-- 2 - ParlaMind Query - This is the Q & A page which is our main RAG system. This is where the user will ask questions related to parliament discussions and our RAG system will retrieve relevant documents from the knowledge base and respond appropriately. The user also has an option to select the gpt model version he/she wants to run the RAG flow in. There are additionally 2 functions/features implemented for question enhancing(query rewriting) and reranking search results from retrieval. The user can check both or either to ask better questions and or get better responses. Additionally a user also gets video references at the bottom(Except for reranked results) to view exactly at what point in the video the question context was discussed. Finally the user can provide a rating of 1 to 5 for the quality of response received. He/she can also provide custom text feedback for the responses they receive.
+- 2 - ParlaMind Query - This is the Q & A page which is our main RAG system. This is where the user will ask questions related to parliament discussions and our RAG system will retrieve relevant documents from the knowledge base and respond appropriately. The user also has an option to select the gpt model version he/she wants to run the RAG flow in. There are additionally 2 functions/features implemented for question enhancing(query rewriting) and reranking search results from retrieval. The user can check both or either to ask better questions and or get better responses. Additionally a user also gets video references at the bottom(Except for reranked results) to view exactly at what point in the video the question context was discussed. This is created using the start time field we had added to the dataset in the beginning. Finally the user can provide a rating of 1 to 5 for the quality of response received. He/she can also provide custom text feedback for the responses they receive.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/5c49b36d-8c8e-47b6-bcf7-910fb2c37089" alt="Query Page">
@@ -297,7 +299,7 @@ Very excited for the future. We will defintely build applications while talking 
     * 0 points: No instructions on how to run the code, the data is missing, or it's unclear how to access it
     * 1 point: Some instructions are provided but are incomplete, OR instructions are clear and complete, the code works, but the data is missing
     * 2 points: Instructions are clear, the dataset is accessible, it's easy to run the code, and it works. The versions for all dependencies are specified.
-* Best practices - *Document reranking and user query rewriting is implemented. Code reference in application.py file between lines 58-129 and 226-285. Unfortunately as I have used FAISS hybrid search could not be implemented.*
+* Best practices - *Document reranking and user query rewriting is implemented. Code reference in application.py file between lines 58-129 and 226-285. Unfortunately as I have used FAISS, hybrid search could not be implemented.*
     * [ ] Hybrid search: combining both text and vector search (at least evaluating it) (1 point)
     * [ ] Document re-ranking (1 point)
     * [ ] User query rewriting (1 point)
